@@ -1,0 +1,23 @@
+version: '3'
+# postgres
+# ローカルでpostgresを起動する時のみ
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+# dbt
+  dbt:
+    container_name: dbt
+    build: .
+    volumes:
+      - ./dbt_projects:/usr/app/dbt
+    ports:
+      - 8080:8080
